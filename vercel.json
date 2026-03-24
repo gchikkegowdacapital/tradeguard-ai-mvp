@@ -14,5 +14,6 @@
     "RESEND_API_KEY": "@resend_api_key",
     "METAAPI_TOKEN": "@metaapi_token",
     "NEXT_PUBLIC_APP_URL": "@next_public_app_url"
+    
   }
 }
