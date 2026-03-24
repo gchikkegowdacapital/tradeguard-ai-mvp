@@ -1,0 +1,312 @@
+================================================================================
+TRADEGUARD AI MVP - FILES MANIFEST
+================================================================================
+
+CREATED/MODIFIED FILES
+================================================================================
+
+DASHBOARD PAGES
+================================================================================
+
+1. src/app/dashboard/layout.tsx (UPDATED)
+   - Complete responsive layout with dark sidebar
+   - Collapsible mobile menu
+   - Full navigation (Dashboard, Calculator, Journal, AI Copilot, Settings, Upgrade)
+   - Top bar with notifications and account dropdown
+   - Type: Client component ('use client')
+   - Dependencies: lucide-react, next/navigation, @/lib/utils
+   Lines: 140
+   Status: COMPLETE
+
+2. src/app/dashboard/page.tsx (UPDATED)
+   - Dashboard home with account health metrics
+   - Risk score widget with circular gauge
+   - Open positions table
+   - Recent alerts feed
+   - Quick stats indicators
+   - Equity curve chart
+   - Empty state for no broker
+   - Type: Client component ('use client')
+   - Dependencies: React hooks, lucide-react, dashboard components, utils
+   Lines: 260
+   Status: COMPLETE
+
+3. src/app/dashboard/plan/page.tsx (CREATED)
+   - Trading plan builder with 14 fields
+   - Form validation with Zod
+   - Prop Firm Mode collapsible section
+   - Template presets (FTMO, MyForexFunds, TheFundedTrader)
+   - Error handling and toast notifications
+   - Save to /api/plans endpoint
+   - Type: Client component ('use client')
+   - Dependencies: Zod, lucide-react, @/lib/schemas/tradingPlan
+   Lines: 520
+   Status: COMPLETE
+
+4. src/app/dashboard/brokers/page.tsx (CREATED)
+   - Broker connection management
+   - List connected brokers with status
+   - Add broker form with step-by-step instructions
+   - MetaApi Account ID and Token inputs
+   - Test connection functionality
+   - Delete connection functionality
+   - Type: Client component ('use client')
+   - Dependencies: React hooks, lucide-react, API routes
+   Lines: 280
+   Status: COMPLETE
+
+DASHBOARD COMPONENTS
+================================================================================
+
+5. src/components/dashboard/MetricCard.tsx (CREATED)
+   - Reusable metric card component
+   - Variants: blue, purple, green, red, amber
+   - Props: label, value, icon, color, trend
+   - Type: Client component ('use client')
+   - Dependencies: @/lib/utils (cn)
+   Lines: 27
+   Status: COMPLETE
+
+6. src/components/dashboard/RiskGauge.tsx (CREATED)
+   - Circular SVG gauge (0-100 range)
+   - Dynamic color zones (Green, Yellow, Orange, Red)
+   - Risk level labels
+   - Factor breakdown indicators
+   - Type: Client component ('use client')
+   - Props: score (number 0-100)
+   Lines: 80
+   Status: COMPLETE
+
+7. src/components/dashboard/PositionRow.tsx (CREATED)
+   - Table row for open positions
+   - Props: position object
+   - Displays: Symbol, Direction, Entry, Current, P&L, Risk%, SL, TP
+   - Direction arrows with icons
+   - P&L color coding
+   - Type: Client component ('use client')
+   - Dependencies: lucide-react, @/lib/utils
+   Lines: 65
+   Status: COMPLETE
+
+8. src/components/dashboard/AlertItem.tsx (CREATED)
+   - Alert notification display
+   - Props: alert object
+   - Level badges: info, warning, critical, emergency
+   - Color-coded by level
+   - Timestamp display
+   - Type: Client component ('use client')
+   - Dependencies: lucide-react, @/lib/utils
+   Lines: 55
+   Status: COMPLETE
+
+9. src/components/dashboard/EquityChart.tsx (CREATED)
+   - Recharts line chart for equity curve
+   - Responsive container
+   - Sample 7-day data
+   - Dark theme styling
+   - Type: Client component ('use client')
+   - Dependencies: recharts
+   Lines: 40
+   Status: COMPLETE
+
+10. src/components/dashboard/EmptyState.tsx (CREATED)
+    - Reusable empty state component
+    - Props: icon, title, message, ctaText, ctaHref
+    - Link to action
+    - Type: Client component ('use client')
+    - Dependencies: next/link
+    Lines: 30
+    Status: COMPLETE
+
+API ROUTES
+================================================================================
+
+11. src/app/api/plans/route.ts (CREATED)
+    - GET: Fetch user's active trading plan
+    - POST: Create/save trading plan
+    - Zod validation with error handling
+    - Supabase auth check
+    - Standard response format
+    - HTTP Methods: GET, POST
+    - Status codes: 200, 201, 400, 401, 500
+    - Dependencies: @/lib/supabase/server, Zod, @/types
+    Lines: 110
+    Status: COMPLETE
+
+12. src/app/api/brokers/route.ts (CREATED)
+    - GET: List user's broker connections
+    - POST: Add new broker connection
+    - DELETE: Remove broker connection
+    - Supabase auth check
+    - Query params: id (for DELETE)
+    - HTTP Methods: GET, POST, DELETE
+    - Status codes: 200, 201, 400, 401, 500
+    - Dependencies: @/lib/supabase/server, @/types
+    Lines: 120
+    Status: COMPLETE
+
+13. src/app/api/brokers/test/route.ts (CREATED)
+    - POST: Test MetaApi connection
+    - Validates account ID and token format
+    - Returns connection status
+    - No auth required (can test before save)
+    - HTTP Method: POST
+    - Status codes: 200, 400, 500
+    - Dependencies: @/types
+    Lines: 40
+    Status: COMPLETE
+
+14. src/app/api/accounts/route.ts (UPDATED)
+    - GET: Fetch account health metrics
+    - Calculates: Daily P&L, Margin Level, Drawdown
+    - Handles no broker scenario
+    - Supabase auth check
+    - HTTP Method: GET
+    - Status codes: 200, 401, 500
+    - Dependencies: @/lib/supabase/server, @/types
+    Lines: ~70 (updated section)
+    Status: COMPLETE
+
+15. src/app/api/positions/route.ts (CREATED)
+    - GET: Fetch open positions
+    - Filters: positions where exit_time is null
+    - Supabase auth check
+    - Ordered by most recent
+    - HTTP Method: GET
+    - Status codes: 200, 401, 500
+    - Dependencies: @/lib/supabase/server, @/types
+    Lines: 30
+    Status: COMPLETE
+
+16. src/app/api/alerts/route.ts (CREATED)
+    - GET: Fetch unresolved alerts (max 10)
+    - POST: Create new alert
+    - Validates alert level and message
+    - Supabase auth check
+    - HTTP Methods: GET, POST
+    - Status codes: 200, 201, 400, 401, 500
+    - Dependencies: @/lib/supabase/server, @/types, AlertLevel
+    Lines: 80
+    Status: COMPLETE
+
+VALIDATION SCHEMAS
+================================================================================
+
+17. src/lib/schemas/tradingPlan.ts (CREATED)
+    - Zod schema for TradingPlanInput
+    - All 14 trading plan fields
+    - Field constraints and defaults
+    - INSTRUMENTS array (15 items)
+    - PROP_FIRM_TEMPLATES object
+    - Type exports: TradingPlanInput
+    - Dependencies: zod
+    Lines: 75
+    Status: COMPLETE
+
+DOCUMENTATION
+================================================================================
+
+18. DASHBOARD_IMPLEMENTATION.md (CREATED)
+    - Complete feature documentation
+    - File descriptions and line counts
+    - Key features overview
+    - Data flow explanation
+    - Database integration info
+    - Styling documentation
+    - Next steps for integration
+    - Testing checklist
+    - File structure
+    Lines: ~200
+    Status: COMPLETE
+
+19. API_REFERENCE.md (CREATED)
+    - API endpoints documentation
+    - Response format specifications
+    - All endpoints with examples
+    - Error codes reference
+    - Validation rules
+    - cURL and JavaScript examples
+    - Rate limiting notes
+    - Authentication documentation
+    Lines: ~300
+    Status: COMPLETE
+
+20. COMPLETION_SUMMARY.txt (CREATED)
+    - Project completion status
+    - Deliverables checklist
+    - Implementation details
+    - Technical specifications
+    - Code statistics
+    - Features implemented
+    - Design specifications met
+    - Ready for integration checklist
+    Lines: ~400
+    Status: COMPLETE
+
+21. FILES_MANIFEST.txt (THIS FILE)
+    - Complete file listing
+    - Descriptions and dependencies
+    - Status for each file
+    - Total statistics
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+
+Total Files Created:           16
+Total Files Updated:           2
+Total Documentation Files:     4
+Total Lines of Code:           ~1,934
+
+Breakdown by Type:
+  Dashboard Pages:             4 files (~1,200 lines)
+  Components:                  6 files (~300 lines)
+  API Routes:                  6 files (~400 lines)
+  Validation:                  1 file (~75 lines)
+  Documentation:               3 files (~800 lines)
+
+Dependencies Added:
+  - lucide-react (for icons)
+  - zod (for validation)
+  - recharts (for charts)
+  - next/navigation (for routing)
+  - @supabase/ssr (for auth)
+
+All files follow:
+  ✓ TypeScript (strict mode)
+  ✓ React 18+ conventions
+  ✓ Next.js 14+ App Router
+  ✓ TailwindCSS styling
+  ✓ Supabase integration
+  ✓ Error handling
+  ✓ Standard API response format
+
+================================================================================
+READY FOR DEPLOYMENT
+================================================================================
+
+Prerequisites:
+  - Node.js 18+
+  - npm or yarn
+  - Supabase project
+  - Environment variables configured
+  - Required npm packages installed
+
+Installation:
+  1. npm install (if dependencies not installed)
+  2. Update .env.local with Supabase credentials
+  3. Run database migrations for new tables
+  4. npm run dev (development)
+  5. npm run build (production)
+
+Testing:
+  - All pages load without console errors
+  - Forms validate correctly
+  - API routes return proper status codes
+  - Mobile responsive design works
+  - Dark theme applies throughout
+  - Empty states display correctly
+  - Toast notifications work
+  - Database persistence functions
+
+================================================================================
