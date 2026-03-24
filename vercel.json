@@ -14,15 +14,5 @@
     "RESEND_API_KEY": "@resend_api_key",
     "METAAPI_TOKEN": "@metaapi_token",
     "NEXT_PUBLIC_APP_URL": "@next_public_app_url"
-  },
-  "crons": [
-    {
-      "path": "/api/crons/sync-accounts",
-      "schedule": "0 */4 * * *"
-    },
-    {
-      "path": "/api/crons/generate-snapshots",
-      "schedule": "0 0 * * *"
-    }
-  ]
+  }
 }
